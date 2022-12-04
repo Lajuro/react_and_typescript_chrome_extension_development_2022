@@ -189,3 +189,66 @@ In this class, you learned how to create a Chrome extension. You learned how to 
 ### 📚 Introduction to the options page
 
 In this class, you will learn how to create an options page for a Chrome extension.
+
+### ◽ Adding options page in the manifest file
+
+Let's add the options page to the `manifest.json` file.
+
+```json
+{
+  // [...] Other fields
+  "options_page": "options.html"
+}
+```
+
+### ◽ Creating an options page
+
+Let's create an options page. The options page is an HTML file named `options.html`.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer Extension - Options</title>
+    <link rel="stylesheet" href="css/options.css">
+  </head>
+  <body>
+    <h1>Timer Extension - Options</h1>
+    
+    <input type="text" id="name-input" placeholder="Name">
+    <button id="save-btn">Save Options</button>
+
+    <script src="js/options.js"></script>
+  </body>
+</html>
+```
+
+### ◽ Adding an options page CSS file
+
+Let's add an options page CSS file. The options page CSS file is a CSS file named `options.css`, you can create it inside the `css` folder.
+
+```css
+h1 {
+color: green;
+}
+```
+
+### ◽ Adding an options page JavaScript file
+
+Let's add an options page JavaScript file. The options page JavaScript file is a JavaScript file named `options.js`, you can create it inside the `js` folder.
+
+```js
+let nameInput = document.getElementById('name-input');
+let saveButton = document.getElementById('save-btn');
+
+saveButton.addEventListener('click', function () {
+  let name = nameInput.value;
+  console.log(name);
+});
+```
+
+> **Note**<br>
+> This script will log the name that is entered in the input field when the user clicks the save button.
