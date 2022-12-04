@@ -252,3 +252,92 @@ saveButton.addEventListener('click', function () {
 
 > **Note**<br>
 > This script will log the name that is entered in the input field when the user clicks the save button.
+
+### 📚 Conclusion to the options page class
+
+In this class, you learned how to create an options page for a Chrome extension. You learned how to add the options page to the manifest file, create an options page, and add an options page CSS file and JavaScript file.
+
+## Chrome Storage API
+
+### 📚 Introduction to the Chrome Storage API
+
+In this class, you will learn how to use the Chrome Storage API to store data in the Chrome browser.
+
+### ◽ Adding the storage permission
+
+Let's add the storage permission to the `manifest.json` file.
+
+```json
+{
+  // [...] Other fields
+  "permissions": [
+    "storage"
+  ]
+}
+```
+
+### ◽ Adding storage to the options page
+
+Let's add storage to the options page. You can go to the `js/options.js` file and add the following code.
+
+```js
+let nameInput = document.getElementById('name-input');
+let saveButton = document.getElementById('save-btn');
+
+// Save the name to storage
+saveButton.addEventListener('click', function () {
+  let name = nameInput.value;
+  chrome.storage.sync.set({
+    name
+  }, () => {
+    console.log(`Name set to ${ name }`);
+  });
+});
+
+// Recover the name from storage and display it in the input field
+chrome.storage.sync.get(['name'], ({ name }) => {
+  nameInput.value = name || '';
+});
+```
+
+> **Note**<br>
+> In the event listener for the save button, the `chrome.storage.sync.set` method is used to save the name to storage.
+> By the end of the script, was added a line of code that recovers the name from storage and displays it in the input field.
+
+### ◽ Adding name heading to the popup html
+
+Let's add a name heading to the popup HTML file. You can go to the `popup.html` file and add the following code.
+
+```html
+<!-- Other Elements -->
+  <!-- Below this element: <h2 id="time"></h2> -->
+  <h2 id="name"></h2>
+  <!-- Above this element: <script src="js/popup.js"></script> -->
+<!-- Other Elements -->
+```
+
+### ◽ Adding name heading to the popup JavaScript file
+
+Let's add a name heading to the popup JavaScript file. You can go to the `js/popup.js` file and add the following code.
+
+```js
+const timeElement = document.getElementById('time');
+const nameElement = document.getElementById('name');
+const currentTime = new Date().toLocaleTimeString();
+timeElement.textContent = `The current time is: ${ currentTime }`;
+
+chrome.action.setBadgeText({
+  text: 'TIME'
+},
+  () => {
+    console.log('Finished setting badge text');
+  });
+
+chrome.storage.sync.get(['name'], ({ name }) => {
+  nameElement.textContent = name || '';
+});
+```
+
+### 📚 Conclusion to the Chrome Storage API class
+
+In this class, you learned how to use the Chrome Storage API to store data in the Chrome browser. You learned how to add the storage permission to the manifest file, add storage to the options page, and add name heading to the popup HTML and JavaScript files.
