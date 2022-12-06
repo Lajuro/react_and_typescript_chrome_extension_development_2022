@@ -341,3 +341,44 @@ chrome.storage.sync.get(['name'], ({ name }) => {
 ### 📚 Conclusion to the Chrome Storage API class
 
 In this class, you learned how to use the Chrome Storage API to store data in the Chrome browser. You learned how to add the storage permission to the manifest file, add storage to the options page, and add name heading to the popup HTML and JavaScript files.
+
+## Background Script
+
+### 📚 Introduction to the background script
+
+In this class, you will learn how to create a background script for a Chrome extension.
+
+### ◽ Adding background script to the manifest file
+
+Let's add the background script to the `manifest.json` file.
+
+```json
+{
+  // [...] Other fields
+  "background": {
+    "service_worker": "js/background.js"
+  }
+}
+```
+
+### ◽ Creating a background script
+
+Let's create a background script. The background script is a JavaScript file named `background.js`, you can create it inside the `js` folder.
+
+```js
+let time = 0;
+
+setInterval(() => {
+  time += 1;
+  console.clear();
+  console.log(time);
+}, 1000);
+```
+
+> **Note**<br>
+> The background script only runs while the Chrome browser is open. This script will log the time in seconds that the browser has been open. To see the log you have to go to the `Extensions` page in the Chrome browser and click on `service worker` link.
+
+### 📚 Conclusion to the background script class
+
+In this class, you learned how to create a background script for a Chrome extension. You learned how to add the background script to the manifest file and create a background script.
+
