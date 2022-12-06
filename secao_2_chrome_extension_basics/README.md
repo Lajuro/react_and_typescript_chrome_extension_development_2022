@@ -382,3 +382,90 @@ setInterval(() => {
 
 In this class, you learned how to create a background script for a Chrome extension. You learned how to add the background script to the manifest file and create a background script.
 
+## Chrome Alarm API
+
+### 📚 Introduction to the Chrome Alarm API
+
+In this class, you will learn how to use the Chrome Alarm API to create an alarm. It's used to schedule a task to be executed at a specific time or periodically.
+
+### ◽ Adding the alarms permission
+
+Let's add the alarms permission to the `manifest.json` file.
+
+```json
+{
+  // [...] Other fields
+  "permissions": [
+    // [...] Other permissions
+    "alarms"
+  ]
+}
+```
+
+### ◽ Adding alarm to the background script
+
+Let's add alarm to the background script. You can go to the `js/background.js` file, clear the code, and add the following code.
+
+```js
+chrome.alarms.create({
+  periodInMinutes: 1 / 60,
+});
+
+chrome.alarms.onAlarm.addListener(function (alarm) {
+  chrome.storage.local.get(["timer"], (res) => {
+    const time = res.timer ?? 0;
+    chrome.storage.local.set({ timer: time + 1 });
+    chrome.action.setBadgeText({ text: `${ time + 1 }` });
+  });
+});
+```
+
+> **Note**<br>
+> You first create an alarm that will be executed every minute. Then you add an event listener to the alarm. When the alarm is executed, the event listener will be called. In the event listener, you get the time from storage, add 1 to it, and save it back to storage. You also set the badge text to the new time.
+
+### ◽ Adding element to the popup HTML file
+
+Let's add an element to the popup HTML file. You can go to the `popup.html` file and add the following code.
+
+```html
+<!-- Other Elements -->
+  <!-- Below this element: <h2 id="name"></h2> -->
+  <h2 id="timer"></h2>
+  <!-- Above this element: <script src="js/popup.js"></script> -->
+<!-- Other Elements -->
+```
+
+### ◽ Adding timer to the popup JavaScript file
+
+Let's add timer to the popup JavaScript file. You can go to the `js/popup.js` file and add the following code.
+
+```js
+const timeElement = document.getElementById('time');
+const nameElement = document.getElementById('name');
+const timerElement = document.getElementById('timer');
+
+function updateTimeElements() {
+  chrome.storage.local.get(["timer"], (res) => {
+    const time = res.timer ?? 0;
+    timerElement.textContent = `Timer: ${ time }`;
+  });
+
+  const currentTime = new Date().toLocaleTimeString();
+  timeElement.textContent = `The current time is: ${ currentTime }`;
+
+}
+
+updateTimeElements();
+setInterval(updateTimeElements, 1000);
+
+chrome.storage.sync.get(['name'], ({ name }) => {
+  nameElement.textContent = name || '';
+});
+```
+
+> **Note**<br>
+> In the `updateTimeElements` function, you get the time from storage and display it in the timer element. You also update the time element every second.
+
+### 📚 Conclusion to the Chrome Alarm API class
+
+In this class, you learned how to use the Chrome Alarm API to create an alarm. You learned how to add the alarms permission, add alarm to the background script, add element to the popup HTML file, and add timer to the popup JavaScript file.
