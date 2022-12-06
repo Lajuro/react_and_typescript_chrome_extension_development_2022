@@ -469,3 +469,54 @@ chrome.storage.sync.get(['name'], ({ name }) => {
 ### 📚 Conclusion to the Chrome Alarm API class
 
 In this class, you learned how to use the Chrome Alarm API to create an alarm. You learned how to add the alarms permission, add alarm to the background script, add element to the popup HTML file, and add timer to the popup JavaScript file.
+
+## Chrome Notifications API
+
+### 📚 Introduction to the Chrome Notifications API
+
+In this class, you will learn how to use the Chrome Notifications API to create a notification. It's used to display a notification to the user.
+
+### ◽ Adding the notifications permission
+
+Let's add the notifications permission to the `manifest.json` file.
+
+```json
+{
+  // [...] Other fields
+  "permissions": [
+    // [...] Other permissions
+    "notifications"
+  ]
+}
+```
+
+### ◽ Adding notification to the background script
+
+Let's add notification to the background script. You can go to the `js/background.js` file, clear the code, and add the following code.
+
+```js
+chrome.alarms.create({
+  periodInMinutes: 1 / 60,
+});
+
+chrome.alarms.onAlarm.addListener(function (alarm) {
+  chrome.storage.local.get(["timer"], (res) => {
+    const time = res.timer ?? 0;
+    chrome.storage.local.set({ timer: time + 1 });
+    chrome.action.setBadgeText({ text: `${ time + 1 }` });
+    if (time >= 10 && time % 10 === 0) {
+      this.registration.showNotification("Chrome Timer Extension", {
+        body: `10 seconds have passed`,
+        icon: "icons/icon.png",
+      });
+    }
+  });
+});
+```
+
+> **Note**<br>
+> You first create an alarm that will be executed every minute. Then you add an event listener to the alarm. When the alarm is executed, the event listener will be called. In the event listener, you get the time from storage, add 1 to it, and save it back to storage. You also set the badge text to the new time. If the time is greater than or equal to 10 and the time is divisible by 10, you show a notification that says `10 seconds have passed`.
+
+### 📚 Conclusion to the Chrome Notifications API class
+
+In this class, you learned how to use the Chrome Notifications API to create a notification. You learned how to add the notifications permission and add notification to the background script.
